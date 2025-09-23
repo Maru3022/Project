@@ -30,6 +30,8 @@ public class Library {
 
     }
 
+    //This class adds objects to the list
+    // Этот класс добавляет объекты в список
     public void addItem() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("ADD NEW BOOK: " +
@@ -65,23 +67,22 @@ public class Library {
     }
 
     public ArrayList<Book> getAllItems() {
-        System.out.println("\nList of all books");
+        System.out.println("\nList of all books: ");
         if (list.isEmpty()) {
             System.out.println("The list is empty");
+        }else{
+            for (Book book : list) {
+                System.out.println(book.toString());
+            }
         }
 
-
-        for (Book book : list) {
-            System.out.println("ID: " + book.getId() + " ,name: " +
-                    book.getName() + " ,author: " + book.getAuthor() +
-                    " ,age" + book.getAge() + " ,type: " + book.getType() +
-                    " ,isReading: " + book.isReading() + " ,isWatching: " + book.isWatched());
-        }
         return list;
     }
 
+
+    //This class is responsible for the output of books by ID
+    //Этот класс отвечает за вывод книг по ID
     public Optional<Book> getItemByID(int id) {
-        ArrayList<Book> list = new ArrayList<>();
 
         return list.stream()
                 .filter(book -> book.getId() == id)

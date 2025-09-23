@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -43,12 +41,10 @@ public class Main {
                     if (bookOptional.isPresent()) {
                         Book book = bookOptional.get();
 
-                        System.out.println("ID: " + Book.getId() + " ,name: " + Book.getName()
-                                + " ,author: " + Book.getAuthor() + " ,age: " + Book.getAge()
-                                + " ,type: " + Book.getType() + " ,isReading: " + Book.isReading()
-                                + " ,isWatching: " + Book.isWatched());
+                        System.out.println(book.toString());
+
                     } else {
-                        System.out.println("Book with ID" + idToSearch + " not found.");
+                        System.out.println("Book with ID " + idToSearch + " not found.");
                     }
                     break;
 
@@ -63,16 +59,6 @@ public class Main {
                         System.out.println("Error!");
                         break;
                     }
-
-                    if (books.isEmpty()) {
-                        System.out.println("There are no such books in the library.");
-                        break;
-                    }
-
-                    for (Book book : books) {
-                        System.out.println(book);
-                    }
-
                     break;
 
                 default:

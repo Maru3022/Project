@@ -1,48 +1,47 @@
 public class Book {
-
-    private static int id;
-    private static String name;
-    private static String author;
-    private static int age;
-    private static String type;
-    private static boolean isReading;
-    private static boolean isWatched;
+    private int id;
+    private String name;
+    private String author;
+    private int age;
+    private String type;
+    private boolean isReading;
+    private boolean isWatched;
 
     public Book(int id, String author, String name, int age, String type, boolean isReading, boolean isWatched) {
-        this.age = age;
-        this.author = author;
         this.id = id;
+        this.author = author;
+        this.name = name;
+        this.age = age;
+        this.type = type;
         this.isReading = isReading;
         this.isWatched = isWatched;
-        this.name = name;
-        this.type = type;
     }
 
-    public static int getAge() {
+    public int getAge() {
         return age;
     }
 
-    public static String getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
-    public static boolean isReading() {
+    public boolean isReading() {
         return isReading;
     }
 
-    public static boolean isWatched() {
+    public boolean isWatched() {
         return isWatched;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
