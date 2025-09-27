@@ -40,30 +40,30 @@ public class Library {
         int id = generateUniqueID();
         System.out.println("Generated ID: " + id);
 
-        System.out.println("Author: ");
+        System.out.print("Author: ");
         String author = scanner.nextLine();
 
-        System.out.println("Name: ");
+        System.out.print("Name: ");
         String name = scanner.nextLine();
 
-        System.out.println("Age: ");
+        System.out.print("Age: ");
         int age = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Type: ");
+        System.out.print("Type: ");
         String type = scanner.nextLine();
 
-        System.out.println("isReading (True/False): ");
+        System.out.print("isReading (True/False): ");
         boolean isReading = scanner.nextBoolean();
         scanner.nextLine();
 
-        System.out.println("isWatching (True/False): ");
+        System.out.print("isWatching (True/False): ");
         boolean isWatching = scanner.nextBoolean();
         scanner.nextLine();
 
         Book newBook = new Book(id, author, name, age, type, isReading, isWatching);
         list.add(newBook);
-        System.out.println("\nThe book has been successfully added!");
+        System.out.print("\nThe book has been successfully added!");
     }
 
     public ArrayList<Book> getAllItems() {
@@ -79,7 +79,6 @@ public class Library {
         return list;
     }
 
-
     //This class is responsible for the output of books by ID
     //Этот класс отвечает за вывод книг по ID
     public Optional<Book> getItemByID(int id) {
@@ -87,5 +86,54 @@ public class Library {
         return list.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst();
+    }
+
+    public void editBookByID(int id){
+        Optional<Book> bookOptional = getItemByID(id);
+        if(!bookOptional.isPresent()){
+            System.out.println("Book with ID " + id + " not found.");
+            return;
+        }
+
+        Book book = bookOptional.get();
+        System.out.println("Found book: " + book.toString());
+        System.out.println("Enter new values (press Enter to keep current):");
+
+        System.out.println("New name [" + book.getName() + "]: ");
+        String newName = scanner.nextLine();
+        if(!newName.isEmpty()){
+            book.setAuthor(newName);
+        }
+
+        System.out.println("New author [" + book.getAuthor() + "]: ");
+        String newAuthor = scanner.nextLine();
+        if(!newAuthor.isEmpty()){
+            book.setAuthor(newAuthor);
+        }
+
+
+        System.out.println("New age [" + book.getAge() + "]: ");
+        String newAgeInput = scanner.nextLine();
+        if (!newAgeInput.isEmpty()){
+            try{
+                int newAge = Integer.parseInt(newAgeInput);
+                book.setAge(newAge);
+            }catch(NumberFormatException e){
+                System.out.println("Invalid number format. Age not changed.");
+            }
+        }
+
+        System.out.println("New isReading (True/False) [" + book.isReading() + "]:");
+        String newReadingInput = scanner.nextLine();
+        if (!newReadingInput.isEmpty()){
+            try{
+                boolean newReading = Boolean.parseBoolean(newReadingInput);
+                book.setReading(newReading);
+            }catch (Exception e){
+                System.out.println("Invalid boolean format. Use 'True' or 'False'. Watched status not changed" );
+            }
+        }
+
+        System.out.println("Book updated successfully");
     }
 }
