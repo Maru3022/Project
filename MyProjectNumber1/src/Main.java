@@ -18,6 +18,7 @@ public class Main {
             System.out.println("4. Exit");
             System.out.println("5. Show all the books");
             System.out.println("6. Update information");
+            System.out.println("7. Delete element");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -72,7 +73,19 @@ public class Main {
                         System.out.println("Error: Invalid ID format. Please enter a number.");
                     }
                     break;
-                default:
+
+                case 7:
+                    System.out.println("=== Delete element by ID ===");
+                    System.out.print("Enter element ID to delete: ");
+
+                    int idToDelete = scanner.nextInt();
+                    scanner.nextLine();
+
+                    library.DeleteItemByID();
+
+                    break;
+
+                    default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }

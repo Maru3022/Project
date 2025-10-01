@@ -102,7 +102,7 @@ public class Library {
         System.out.println("New name [" + book.getName() + "]: ");
         String newName = scanner.nextLine();
         if(!newName.isEmpty()){
-            book.setAuthor(newName);
+            book.setName(newName);
         }
 
         System.out.println("New author [" + book.getAuthor() + "]: ");
@@ -135,5 +135,32 @@ public class Library {
         }
 
         System.out.println("Book updated successfully");
+    }
+
+    public void DeleteItemByID(){
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter id to delete: ");
+        int delete = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Are you sure(True or False): ");
+        String confirmation = scanner.nextLine();
+
+        if (confirmation.equalsIgnoreCase("True")){
+
+            boolean removed = list.removeIf(item -> item.getId() == delete);
+            if (removed){
+                System.out.println("Item with ID " + delete + " deleted successfully");
+            }else{
+                System.out.println("Item with ID " + delete + " not found");
+            }
+        }else if(confirmation.equalsIgnoreCase("False")){
+            System.out.println("Deletion cancelled");
+        }else{
+            System.out.println("Invalid input. Please enter 'True' or 'False'");
+        }
+
     }
 }
