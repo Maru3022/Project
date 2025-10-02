@@ -66,6 +66,8 @@ public class Library {
         System.out.print("\nThe book has been successfully added!");
     }
 
+    //This class is responsible for the output of books
+    //Этот класс отвечает за вывод книг
     public ArrayList<Book> getAllItems() {
         System.out.println("\nList of all books: ");
         if (list.isEmpty()) {
@@ -75,7 +77,6 @@ public class Library {
                 System.out.println(book.toString());
             }
         }
-
         return list;
     }
 
@@ -88,6 +89,8 @@ public class Library {
                 .findFirst();
     }
 
+    //This class is responsible for changing the list
+    //Этот класс отвечает за изменение списка
     public void editBookByID(int id){
         Optional<Book> bookOptional = getItemByID(id);
         if(!bookOptional.isPresent()){
@@ -137,6 +140,8 @@ public class Library {
         System.out.println("Book updated successfully");
     }
 
+    //This class is responsible for removing list items
+    //Этот класс отвечает за удаление элементов списка
     public void DeleteItemByID(){
 
         Scanner scanner = new Scanner(System.in);

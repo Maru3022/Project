@@ -1,3 +1,6 @@
+//In this class, all getters and setters for the whole project
+// этом классе все геттеры и сеттеры для всего проекта
+
 public class Book {
     private int id;
     private String name;
