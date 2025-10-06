@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +21,8 @@ public class Main {
             System.out.println("5. Show all the books");
             System.out.println("6. Update information");
             System.out.println("7. Delete element");
+            System.out.println("8. Find some element");
+            System.out.println("9. Exit with code 9");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -101,6 +106,78 @@ public class Main {
                     library.DeleteItemByID();
 
                     break;
+
+                case 8:
+
+                    System.out.println("=== Search some element ===");
+
+                    System.out.print("Choose a search method (1-by ID,2-by author,3-by year) : ");
+                    int searchChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch(searchChoice){
+
+                        //Search for a book by ID
+                        //Поиск книги по ID
+                        case 1:
+
+                            System.out.print("Enter the search ID: ");
+                            int idToSearch1 = scanner.nextInt();
+                            scanner.nextLine();
+
+                            Optional<Book> foundBook = library.getItemByID(idToSearch1);
+
+                            if(foundBook.isPresent()){
+                                System.out.println("Book found: " + foundBook.get());
+                            }else {
+                                System.out.println("Book with ID " + idToSearch1 + " not found.");
+                            }
+                            break;
+
+                        //Search for a book by author
+                        //Поиск книги по автору
+                        case 2:
+
+                            System.out.print("Enter the author to search:");
+                            String authorToSearch = scanner.nextLine();
+
+                            ArrayList<Book> booksByAuthor = library.searchByAuthor(authorToSearch);
+
+                            if (!booksByAuthor.isEmpty()){
+                                System.out.println("Found " + booksByAuthor.size() + " book(s) by author " + authorToSearch + ":");
+                                for (Book book : booksByAuthor){
+                                    System.out.println(book);
+                                }
+                            }else{
+                                System.out.print("No books found by author: " + authorToSearch);
+                            }
+                            break;
+
+                        //Search for a book by year of publication
+                        //Поиск книги по году издания
+                        case 3:
+                            System.out.print("You have selected a search by year of publication. Enter the year: ");
+
+                            System.out.print("Enter the year to search: ");
+                            int ageToSearch = scanner.nextInt();
+                            scanner.nextLine();
+
+                            ArrayList<Book> booksByYear = library.searchByYear(ageToSearch);
+
+                            if (!booksByYear.isEmpty()){
+                                System.out.println("Found " + booksByYear.size() + "book(s) by year " + booksByYear + ":" );
+                            }else{
+                                System.out.println("No books found by year: " + booksByYear);
+                            }
+                            break;
+                    }
+
+                    break;
+
+                case 9:
+                    System.out.println("Invalid with code...");
+                    scanner.close();
+                    return;
 
                     default:
                         System.out.println("Invalid choice. Please try again.");

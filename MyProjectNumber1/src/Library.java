@@ -89,6 +89,28 @@ public class Library {
                 .findFirst();
     }
 
+    public ArrayList<Book> searchByAuthor(String author){
+        ArrayList<Book> result = new ArrayList<>();
+        for (Book book : list){
+            if (book.getAuthor().equalsIgnoreCase(author)){
+                result.add(book);
+            }
+        }
+        return result;
+    }
+
+
+    public ArrayList<Book> searchByYear(int year){
+        ArrayList<Book> result = new ArrayList<>();
+        for(Book book : list ){
+            if (book.getAge() == year){
+                result.add(book);
+            }
+        }
+
+        return result;
+    }
+
     //This class is responsible for changing the list
     //Этот класс отвечает за изменение списка
     public void editBookByID(int id){
