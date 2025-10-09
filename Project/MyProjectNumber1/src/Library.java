@@ -40,8 +40,9 @@ public class Library {
         int id = generateUniqueID();
         System.out.println("Generated ID: " + id);
 
+        //Processing the correctness of the information entered by the user
+        //Проверка корректности информации введенной пользователем
         String author;
-
         while (true) {
             System.out.print("Author: ");
             author = scanner.nextLine();
@@ -64,9 +65,28 @@ public class Library {
             break;
         }
 
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
 
+        String name = "";
+        while(true){
+            System.out.print("Name: ");
+
+            if(name.trim().isEmpty()){
+                System.out.println("Error: Name is cannot be empty. Please try again.");
+                continue;
+            }
+            if(name.matches(".*[0-9].*")){
+                System.out.println("Error: Name is cannot contain numbers. Please try again");
+                continue;
+            }
+
+            if (name.length() > 100){
+                System.out.println("Error: Name is too long (max 100 characters). Please try again.");
+            }
+            break;
+        }
+
+        //Checking that the user has entered exactly the number, not something else
+        //Проверка на то, чтобы пользователь ввел именно число, а не что-то другое
         System.out.print("Age: ");
         int age = 0;
         try{
