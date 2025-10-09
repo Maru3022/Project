@@ -40,15 +40,41 @@ public class Library {
         int id = generateUniqueID();
         System.out.println("Generated ID: " + id);
 
-        System.out.print("Author: ");
-        String author = scanner.nextLine();
+        String author;
+
+        while (true) {
+            System.out.print("Author: ");
+            author = scanner.nextLine();
+
+            if (author.trim().isEmpty()) {
+                System.out.println("Error: Author's name cannot be empty. Please try again.");
+                continue;
+            }
+
+            if (author.matches(".*[0-9].*")) {
+                System.out.println("Error: Author's name cannot contain numbers. Please try again.");
+                continue;
+            }
+
+            if (author.length() > 100) {
+                System.out.println("Error: Author's name is too long (max 100 characters). Please try again.");
+                continue;
+            }
+
+            break;
+        }
 
         System.out.print("Name: ");
         String name = scanner.nextLine();
 
         System.out.print("Age: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
+        int age = 0;
+        try{
+            age = scanner.nextInt();
+        }catch (InputMismatchException e){
+            System.out.println("Error. Enter another information format");
+            scanner.nextLine();
+        }
 
         System.out.print("Type: ");
         String type = scanner.nextLine();
@@ -103,7 +129,7 @@ public class Library {
     public ArrayList<Book> searchByYear(int year){
         ArrayList<Book> result = new ArrayList<>();
         for(Book book : list ){
-            if (book.getAge() == year){
+            if (book.getPublicationYear() == year){
                 result.add(book);
             }
         }
@@ -137,12 +163,12 @@ public class Library {
         }
 
 
-        System.out.println("New age [" + book.getAge() + "]: ");
+        System.out.println("New age [" + book.getPublicationYear() + "]: ");
         String newAgeInput = scanner.nextLine();
         if (!newAgeInput.isEmpty()){
             try{
                 int newAge = Integer.parseInt(newAgeInput);
-                book.setAge(newAge);
+                book.setPublicationYear(newAge);
             }catch(NumberFormatException e){
                 System.out.println("Invalid number format. Age not changed.");
             }

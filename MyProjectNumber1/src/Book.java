@@ -5,7 +5,7 @@ public class Book {
     private int id;
     private String name;
     private String author;
-    private int age;
+    private int publicationYear;
     private String type;
     private boolean isReading;
     private boolean isWatched;
@@ -14,14 +14,14 @@ public class Book {
         this.id = id;
         this.author = author;
         this.name = name;
-        this.age = age;
+        this.publicationYear = age;
         this.type = type;
         this.isReading = isReading;
         this.isWatched = isWatched;
     }
 
-    public int getAge() {
-        return age;
+    public int getPublicationYear() {
+        return publicationYear;
     }
 
     public String getAuthor() {
@@ -48,8 +48,8 @@ public class Book {
         return type;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
     public void setId(int id) {
@@ -82,7 +82,7 @@ public class Book {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
-                ", age=" + age +
+                ", age=" + publicationYear +
                 ", type='" + type + '\'' +
                 ", isReading=" + isReading +
                 ", isWatched=" + isWatched +

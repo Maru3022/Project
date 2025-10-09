@@ -174,6 +174,8 @@ public class Main {
 
                     break;
 
+                //This code closes the program
+                //Этот код закрывает программу
                 case 9:
                     System.out.println("Invalid with code...");
                     scanner.close();
