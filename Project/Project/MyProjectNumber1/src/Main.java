@@ -22,7 +22,7 @@ public class Main {
             System.out.println("6. Update information");
             System.out.println("7. Delete element");
             System.out.println("8. Find some element");
-            System.out.println("9. Exit");
+            System.out.println("9. Exit with code 9");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
