@@ -206,7 +206,8 @@ public class Library {
         return result;
     }
 
-
+    //Search by year of publication
+     //Поиск по году издания
     public ArrayList<Book> searchByYear(int year){
         ArrayList<Book> result = new ArrayList<>();
         for(Book book : list ){
