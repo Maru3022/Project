@@ -52,8 +52,6 @@ public class Library {
                 continue;
             }
 
-            //checking that only letters are entered, not numbers
-            //проверка на то, чтобы вводились именно буквы, а не цифры
             if (author.matches(".*[0-9].*")) {
                 System.out.println("Error: Author's name cannot contain numbers. Please try again.");
                 continue;
@@ -67,20 +65,15 @@ public class Library {
             break;
         }
 
-        //Processing of information entered by the user regarding the name of the book
-        //Обработка информации введенной пользователем касательно имени книги
-        String name;
+
+        String name = "";
         while(true){
             System.out.print("Name: ");
-            name = scanner.nextLine();
 
             if(name.trim().isEmpty()){
                 System.out.println("Error: Name is cannot be empty. Please try again.");
                 continue;
             }
-
-            //checking that only letters are entered, not numbers
-            //проверка на то, чтобы вводились именно буквы, а не цифры
             if(name.matches(".*[0-9].*")){
                 System.out.println("Error: Name is cannot contain numbers. Please try again");
                 continue;
@@ -92,83 +85,29 @@ public class Library {
             break;
         }
 
-        //Checking that the user has entered exactly the number, not something else(date of publication)
-        //Проверка на то, чтобы пользователь ввел именно число, а не что-то другое(дата публикации)
-        int publicationYear = 0;
+        //Checking that the user has entered exactly the number, not something else
+        //Проверка на то, чтобы пользователь ввел именно число, а не что-то другое
+        System.out.print("Age: ");
+        int age = 0;
         try{
-            System.out.print("Publication year: ");
-            publicationYear = scanner.nextInt();
+            age = scanner.nextInt();
         }catch (InputMismatchException e){
             System.out.println("Error. Enter another information format");
+            scanner.nextLine();
         }
+
+        System.out.print("Type: ");
+        String type = scanner.nextLine();
+
+        System.out.print("isReading (True/False): ");
+        boolean isReading = scanner.nextBoolean();
         scanner.nextLine();
 
+        System.out.print("isWatching (True/False): ");
+        boolean isWatching = scanner.nextBoolean();
+        scanner.nextLine();
 
-        //checking the correctness of data regarding the genre of the book
-        //checking the correctness of data regarding the genre of the book
-        String type;
-        while(true){
-            System.out.print("Type: ");
-            type = scanner.nextLine();
-
-            if(type.trim().isEmpty()){
-                System.out.println("Error: Type is cannot be empty. Please try again.");
-                continue;
-            }
-
-            //checking that only letters are entered, not numbers
-            //проверка на то, чтобы вводились именно буквы, а не цифры
-            if(type.matches(".*[0-9].*")){
-                System.out.println("Error: Type is cannot contain numbers. Please try again.");
-                continue;
-            }
-
-            if (type.length() > 100){
-                System.out.println("Error: Type is too long (max 100 characters). Please try again.");
-                continue;
-            }
-            break;
-        }
-
-
-        //checking whether the boolean variable is entered correctly (isReading)
-        //проверка корректности введения boolean переменной (isReading)
-        boolean isReading;
-        while (true) {
-            System.out.print("isReading (true/false): ");
-            String line = scanner.nextLine().trim();
-
-            if (line.equalsIgnoreCase("true")) {
-                isReading = true;
-                break;
-            } else if (line.equalsIgnoreCase("false")) {
-                isReading = false;
-                break;
-            } else {
-                System.out.println("Incorrect input! Please enter 'true' or 'false'.");
-            }
-        }
-
-        //checking whether the boolean variable is entered correctly (isWatching)
-        //проверка корректности введения boolean переменной (isWatching)
-        boolean isWatching = false;
-        while(true){
-            System.out.print("isWatching (true/false): ");
-            String line = scanner.nextLine().trim();
-
-            if (line.equalsIgnoreCase("true")){
-                isWatching = true;
-                break;
-            } else if(line.equalsIgnoreCase("false")){
-                isWatching = false;
-                break;
-            } else{
-                System.out.println("Incorrect input! Please enter 'true' or 'false'.");
-            }
-        }
-
-
-        Book newBook = new Book(id, author, name, publicationYear, type, isReading, isWatching);
+        Book newBook = new Book(id, author, name, age, type, isReading, isWatching);
         list.add(newBook);
         System.out.print("\nThe book has been successfully added!");
     }
