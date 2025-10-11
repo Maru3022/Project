@@ -19,8 +19,13 @@ public class Library {
 
     private int generateUniqueID() {
         int newID;
+        int attemps = 0;
         do {
             newID = random.nextInt(10000) + 1;
+            attemps++;
+            if (attemps > 10000){
+                throw new RuntimeException("Unable to generate a unique ID after 10000 attempts.");
+            }
         }
         //If the IDs are unique, set this value, otherwise it generates a new value
         //Если ID уникальные, устанавливает это значение, иначе генерирует новое значение
@@ -33,7 +38,6 @@ public class Library {
     //This class adds objects to the list
     // Этот класс добавляет объекты в список
     public void addItem() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("ADD NEW BOOK: " +
                 "\n-----------------------------------------------------------");
 
@@ -52,18 +56,10 @@ public class Library {
                 continue;
             }
 
-            //checking that only letters are entered, not numbers
-            //проверка на то, чтобы вводились именно буквы, а не цифры
-            if (author.matches(".*[0-9].*")) {
-                System.out.println("Error: Author's name cannot contain numbers. Please try again.");
-                continue;
-            }
-
             if (author.length() > 100) {
                 System.out.println("Error: Author's name is too long (max 100 characters). Please try again.");
                 continue;
             }
-
             break;
         }
 
@@ -79,13 +75,6 @@ public class Library {
                 continue;
             }
 
-            //checking that only letters are entered, not numbers
-            //проверка на то, чтобы вводились именно буквы, а не цифры
-            if(name.matches(".*[0-9].*")){
-                System.out.println("Error: Name is cannot contain numbers. Please try again");
-                continue;
-            }
-
             if (name.length() > 100){
                 System.out.println("Error: Name is too long (max 100 characters). Please try again.");
             }
@@ -95,14 +84,24 @@ public class Library {
         //Checking that the user has entered exactly the number, not something else(date of publication)
         //Проверка на то, чтобы пользователь ввел именно число, а не что-то другое(дата публикации)
         int publicationYear = 0;
-        try{
+        while (true) {
             System.out.print("Publication year: ");
-            publicationYear = scanner.nextInt();
-        }catch (InputMismatchException e){
-            System.out.println("Error. Enter another information format");
+            String publicationYearInput = scanner.nextLine();
+            if(publicationYearInput.isEmpty()){
+                System.out.println("Error: Year cannot be empty.Please try again.");
+                continue;
+            }
+            try {
+                publicationYear = Integer.parseInt(publicationYearInput);
+                if (publicationYear < 0 || publicationYear > 2025) {
+                    System.out.println("Error: Year must be between 0 and 2025.");
+                    continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Please enter a valid number for the year.");
+            }
         }
-        scanner.nextLine();
-
 
         //checking the correctness of data regarding the genre of the book
         //checking the correctness of data regarding the genre of the book
@@ -273,8 +272,6 @@ public class Library {
     //This class is responsible for removing list items
     //Этот класс отвечает за удаление элементов списка
     public void DeleteItemByID(){
-
-        Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter id to delete: ");
         int delete = scanner.nextInt();

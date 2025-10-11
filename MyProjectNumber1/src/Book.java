@@ -1,6 +1,3 @@
-//In this class, all getters and setters for the whole project
-// этом классе все геттеры и сеттеры для всего проекта
-
 public class Book {
     private int id;
     private String name;
@@ -8,28 +5,39 @@ public class Book {
     private int publicationYear;
     private String type;
     private boolean isReading;
-    private boolean isWatched;
+    private boolean isWatched; // если это действительно нужно (например, для аудиокниг/видео)
 
-    public Book(int id, String author, String name, int age, String type, boolean isReading, boolean isWatched) {
+    // Конструктор
+    public Book(int id, String author, String name, int publicationYear,
+                String type, boolean isReading, boolean isWatched) {
         this.id = id;
         this.author = author;
         this.name = name;
-        this.publicationYear = age;
+        this.publicationYear = publicationYear;
         this.type = type;
         this.isReading = isReading;
         this.isWatched = isWatched;
     }
 
-    public int getPublicationYear() {
-        return publicationYear;
+    // Геттеры
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public int getId() {
-        return id;
+    public int getPublicationYear() {
+        return publicationYear;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public boolean isReading() {
@@ -40,24 +48,25 @@ public class Book {
         return isWatched;
     }
 
-    public String getName() {
-        return name;
+    // Сеттеры
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public void setPublicationYear(int publicationYear) {
         this.publicationYear = publicationYear;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setReading(boolean reading) {
@@ -68,24 +77,61 @@ public class Book {
         isWatched = watched;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    // === CSV сериализация ===
+    public String toCSV() {
+        // Экранируем запятые заменой на точку с запятой (упрощённый подход)
+        return id + "," +
+                escapeCSV(author) + "," +
+                escapeCSV(name) + "," +
+                publicationYear + "," +
+                escapeCSV(type) + "," +
+                isReading + "," +
+                isWatched;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    private static String escapeCSV(String value) {
+        return value == null ? "" : value.replace(",", ";");
+    }
+
+    // === CSV десериализация ===
+    public static Book fromCSV(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            throw new IllegalArgumentException("CSV line is null or empty");
+        }
+        String[] parts = line.split(",", 7); // разбиваем строго на 7 частей
+        if (parts.length != 7) {
+            throw new IllegalArgumentException("Invalid CSV format: expected 7 fields, got " + parts.length + " in line: " + line);
+        }
+
+        try {
+            int id = Integer.parseInt(parts[0].trim());
+            String author = unescapeCSV(parts[1]);
+            String name = unescapeCSV(parts[2]);
+            int publicationYear = Integer.parseInt(parts[3].trim());
+            String type = unescapeCSV(parts[4]);
+            boolean isReading = Boolean.parseBoolean(parts[5].trim());
+            boolean isWatched = Boolean.parseBoolean(parts[6].trim());
+
+            return new Book(id, author, name, publicationYear, type, isReading, isWatched);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid number format in CSV line: " + line, e);
+        }
+    }
+
+    private static String unescapeCSV(String value) {
+        return value == null ? "" : value.replace(";", ",");
     }
 
     @Override
     public String toString() {
-        return "Book [" +
+        return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
-                ", age=" + publicationYear +
+                ", publicationYear=" + publicationYear +
                 ", type='" + type + '\'' +
                 ", isReading=" + isReading +
                 ", isWatched=" + isWatched +
-                ']';
+                '}';
     }
 }
