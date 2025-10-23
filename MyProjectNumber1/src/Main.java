@@ -25,7 +25,12 @@ public class Main {
             System.out.println("9. Search Books (CSV format)");
             System.out.println("10. Save to CSV file");
             System.out.println("11. Load from CSV file");
-            System.out.println("12. Exit");
+            System.out.println("12. List Books Sorted by Name");
+            System.out.println("13. List Books Sorted by Author");
+            System.out.println("14. List Books Sorted by Name (CSV format)");
+            System.out.println("15. List Books Sorted by Author (CSV format)");
+            System.out.println("16. Exit");
+
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -191,6 +196,22 @@ public class Main {
                     break;
 
                 case 12:
+                    library.displaySortedByName();
+                    break;
+
+                case 13:
+                    library.displaySortedByAuthor();
+                    break;
+
+                case 14:
+                    library.displaySortedByNameCSV();
+                    break;
+
+                case 15:
+                    library.displaySortedByAuthorCSV();
+                    break;
+
+                case 16:
                     System.out.println("Do you want to save the library data before exiting? (yes/no): ");
                     String saveChoice = scanner.nextLine().trim().toLowerCase();
 

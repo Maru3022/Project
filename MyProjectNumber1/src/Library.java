@@ -313,6 +313,72 @@ public class Library {
         }
     }
 
+    public void displaySortedByAuthor() {
+        List<Book> sortedList = new ArrayList<>(list);
+        sortedList.sort(Comparator.comparing(
+                book -> extractLastName(book.getAuthor()),
+                String.CASE_INSENSITIVE_ORDER
+        ));
+
+        System.out.println("\nBooks sorted by author's LAST NAME:");
+        if (sortedList.isEmpty()) {
+            System.out.println("The list is empty.");
+        } else {
+            for (Book book : sortedList) {
+                System.out.println(book);
+            }
+        }
+    }
+
+    public void displaySortedByName() {
+        List<Book> sortedList = new ArrayList<>(list);
+        sortedList.sort(Comparator.comparing(Book::getName, String.CASE_INSENSITIVE_ORDER));
+
+        System.out.println("\nBooks sorted by name:");
+        if (sortedList.isEmpty()) {
+            System.out.println("The list is empty.");
+        } else {
+            for (Book book : sortedList) {
+                System.out.println(book);
+            }
+        }
+    }
+
+    public void displaySortedByNameCSV() {
+        List<Book> sortedList = new ArrayList<>(list);
+        sortedList.sort(Comparator.comparing(Book::getName, String.CASE_INSENSITIVE_ORDER));
+
+        System.out.println("\nBooks sorted by name (CSV format):");
+        System.out.println("ID,Author,Name,PublicationYear,Type,isReading");
+        System.out.println("--------------------------------------------------");
+        if (sortedList.isEmpty()) {
+            System.out.println("The list is empty.");
+        } else {
+            for (Book book : sortedList) {
+                System.out.println(book.toCSV());
+            }
+        }
+    }
+
+    public void displaySortedByAuthorCSV() {
+        List<Book> sortedList = new ArrayList<>(list);
+        sortedList.sort(Comparator.comparing(
+                book -> extractLastName(book.getAuthor()),
+                String.CASE_INSENSITIVE_ORDER
+        ));
+
+        System.out.println("\nBooks sorted by author's LAST NAME (CSV format):");
+        System.out.println("ID,Author,Name,PublicationYear,Type,isReading");
+        System.out.println("--------------------------------------------------");
+        if (sortedList.isEmpty()) {
+            System.out.println("The list is empty.");
+        } else {
+            for (Book book : sortedList) {
+                System.out.println(book.toCSV());
+            }
+        }
+    }
+
     public void displayByYearCSV(int year) {
         ArrayList<Book> result = searchByYear(year);
         if (!result.isEmpty()) {
@@ -325,5 +391,13 @@ public class Library {
         } else {
             System.out.println("No books found from year: " + year);
         }
+    }
+
+    public static String extractLastName(String author) {
+        if (author == null || author.trim().isEmpty()) {
+            return "";
+        }
+        String[] parts = author.trim().split("\\s+");
+        return parts[parts.length - 1]; // последнее слово — фамилия
     }
 }
