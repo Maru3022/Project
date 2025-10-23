@@ -1,42 +1,28 @@
+import javax.swing.*;
+import java.io.*;
 import java.util.*;
 
 public class Library {
 
     ArrayList<Book> list = new ArrayList<>();
-
-    //Makes this Scanner work only within this class
-    //Делает так, чтобы этот Scanner работал только в пределах этого класса
     private Scanner scanner = new Scanner(System.in);
-
-    // Generate the constant value of ID
-    //Создаёт случайный постоянный ID
     private static final Random random = new Random();
-
-    // Set the constant value of ID
-    // Устанавливает постоянный ID
     private static Set<Integer> existingIds = new HashSet<>();
-
 
     private int generateUniqueID() {
         int newID;
-        int attemps = 0;
+        int attempts = 0;
         do {
             newID = random.nextInt(10000) + 1;
-            attemps++;
-            if (attemps > 10000){
+            attempts++;
+            if (attempts > 10000) {
                 throw new RuntimeException("Unable to generate a unique ID after 10000 attempts.");
             }
-        }
-        //If the IDs are unique, set this value, otherwise it generates a new value
-        //Если ID уникальные, устанавливает это значение, иначе генерирует новое значение
-        while (existingIds.contains(newID));
+        } while (existingIds.contains(newID));
         existingIds.add(newID);
         return newID;
-
     }
 
-    //This class adds objects to the list
-    // Этот класс добавляет объекты в список
     public void addItem() {
         System.out.println("ADD NEW BOOK: " +
                 "\n-----------------------------------------------------------");
@@ -44,8 +30,6 @@ public class Library {
         int id = generateUniqueID();
         System.out.println("Generated ID: " + id);
 
-        //Processing the correctness of the information entered by the user
-        //Проверка корректности информации введенной пользователем
         String author;
         while (true) {
             System.out.print("Author: ");
@@ -63,32 +47,29 @@ public class Library {
             break;
         }
 
-        //Processing of information entered by the user regarding the name of the book
-        //Обработка информации введенной пользователем касательно имени книги
         String name;
-        while(true){
+        while (true) {
             System.out.print("Name: ");
             name = scanner.nextLine();
 
-            if(name.trim().isEmpty()){
-                System.out.println("Error: Name is cannot be empty. Please try again.");
+            if (name.trim().isEmpty()) {
+                System.out.println("Error: Name cannot be empty. Please try again.");
                 continue;
             }
 
-            if (name.length() > 100){
+            if (name.length() > 100) {
                 System.out.println("Error: Name is too long (max 100 characters). Please try again.");
+                continue;
             }
             break;
         }
 
-        //Checking that the user has entered exactly the number, not something else(date of publication)
-        //Проверка на то, чтобы пользователь ввел именно число, а не что-то другое(дата публикации)
         int publicationYear = 0;
         while (true) {
             System.out.print("Publication year: ");
             String publicationYearInput = scanner.nextLine();
-            if(publicationYearInput.isEmpty()){
-                System.out.println("Error: Year cannot be empty.Please try again.");
+            if (publicationYearInput.isEmpty()) {
+                System.out.println("Error: Year cannot be empty. Please try again.");
                 continue;
             }
             try {
@@ -98,40 +79,28 @@ public class Library {
                     continue;
                 }
                 break;
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Error: Please enter a valid number for the year.");
             }
         }
 
-        //checking the correctness of data regarding the genre of the book
-        //checking the correctness of data regarding the genre of the book
         String type;
-        while(true){
+        while (true) {
             System.out.print("Type: ");
             type = scanner.nextLine();
 
-            if(type.trim().isEmpty()){
-                System.out.println("Error: Type is cannot be empty. Please try again.");
+            if (type.trim().isEmpty()) {
+                System.out.println("Error: Type cannot be empty. Please try again.");
                 continue;
             }
 
-            //checking that only letters are entered, not numbers
-            //проверка на то, чтобы вводились именно буквы, а не цифры
-            if(type.matches(".*[0-9].*")){
-                System.out.println("Error: Type is cannot contain numbers. Please try again.");
-                continue;
-            }
-
-            if (type.length() > 100){
+            if (type.length() > 100) {
                 System.out.println("Error: Type is too long (max 100 characters). Please try again.");
                 continue;
             }
             break;
         }
 
-
-        //checking whether the boolean variable is entered correctly (isReading)
-        //проверка корректности введения boolean переменной (isReading)
         boolean isReading;
         while (true) {
             System.out.print("isReading (true/false): ");
@@ -148,37 +117,16 @@ public class Library {
             }
         }
 
-        //checking whether the boolean variable is entered correctly (isWatching)
-        //проверка корректности введения boolean переменной (isWatching)
-        boolean isWatching = false;
-        while(true){
-            System.out.print("isWatching (true/false): ");
-            String line = scanner.nextLine().trim();
-
-            if (line.equalsIgnoreCase("true")){
-                isWatching = true;
-                break;
-            } else if(line.equalsIgnoreCase("false")){
-                isWatching = false;
-                break;
-            } else{
-                System.out.println("Incorrect input! Please enter 'true' or 'false'.");
-            }
-        }
-
-
-        Book newBook = new Book(id, author, name, publicationYear, type, isReading, isWatching);
+        Book newBook = new Book(id, author, name, publicationYear, type, isReading);
         list.add(newBook);
-        System.out.print("\nThe book has been successfully added!");
+        System.out.println("\nThe book has been successfully added!");
     }
 
-    //This class is responsible for the output of books
-    //Этот класс отвечает за вывод книг
     public ArrayList<Book> getAllItems() {
         System.out.println("\nList of all books: ");
         if (list.isEmpty()) {
             System.out.println("The list is empty");
-        }else{
+        } else {
             for (Book book : list) {
                 System.out.println(book.toString());
             }
@@ -186,43 +134,35 @@ public class Library {
         return list;
     }
 
-    //This class is responsible for the output of books by ID
-    //Этот класс отвечает за вывод книг по ID
     public Optional<Book> getItemByID(int id) {
-
         return list.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst();
     }
 
-    public ArrayList<Book> searchByAuthor(String author){
+    public ArrayList<Book> searchByAuthor(String author) {
         ArrayList<Book> result = new ArrayList<>();
-        for (Book book : list){
-            if (book.getAuthor().equalsIgnoreCase(author)){
+        for (Book book : list) {
+            if (book.getAuthor().equalsIgnoreCase(author)) {
                 result.add(book);
             }
         }
         return result;
     }
 
-    //Search by year of publication
-     //Поиск по году издания
-    public ArrayList<Book> searchByYear(int year){
+    public ArrayList<Book> searchByYear(int year) {
         ArrayList<Book> result = new ArrayList<>();
-        for(Book book : list ){
-            if (book.getPublicationYear() == year){
+        for (Book book : list) {
+            if (book.getPublicationYear() == year) {
                 result.add(book);
             }
         }
-
         return result;
     }
 
-    //This class is responsible for changing the list
-    //Этот класс отвечает за изменение списка
-    public void editBookByID(int id){
+    public void editBookByID(int id) {
         Optional<Book> bookOptional = getItemByID(id);
-        if(!bookOptional.isPresent()){
+        if (!bookOptional.isPresent()) {
             System.out.println("Book with ID " + id + " not found.");
             return;
         }
@@ -231,68 +171,159 @@ public class Library {
         System.out.println("Found book: " + book.toString());
         System.out.println("Enter new values (press Enter to keep current):");
 
-        System.out.println("New name [" + book.getName() + "]: ");
+        System.out.print("New name [" + book.getName() + "]: ");
         String newName = scanner.nextLine();
-        if(!newName.isEmpty()){
+        if (!newName.isEmpty()) {
             book.setName(newName);
         }
 
-        System.out.println("New author [" + book.getAuthor() + "]: ");
+        System.out.print("New author [" + book.getAuthor() + "]: ");
         String newAuthor = scanner.nextLine();
-        if(!newAuthor.isEmpty()){
+        if (!newAuthor.isEmpty()) {
             book.setAuthor(newAuthor);
         }
 
-
-        System.out.println("New age [" + book.getPublicationYear() + "]: ");
+        System.out.print("New publication year [" + book.getPublicationYear() + "]: ");
         String newAgeInput = scanner.nextLine();
-        if (!newAgeInput.isEmpty()){
-            try{
+        if (!newAgeInput.isEmpty()) {
+            try {
                 int newAge = Integer.parseInt(newAgeInput);
                 book.setPublicationYear(newAge);
-            }catch(NumberFormatException e){
-                System.out.println("Invalid number format. Age not changed.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number format. Year not changed.");
             }
         }
 
-        System.out.println("New isReading (True/False) [" + book.isReading() + "]:");
+        System.out.print("New isReading (true/false) [" + book.isReading() + "]: ");
         String newReadingInput = scanner.nextLine();
-        if (!newReadingInput.isEmpty()){
-            try{
-                boolean newReading = Boolean.parseBoolean(newReadingInput);
-                book.setReading(newReading);
-            }catch (Exception e){
-                System.out.println("Invalid boolean format. Use 'True' or 'False'. Watched status not changed" );
+        if (!newReadingInput.isEmpty()) {
+            if (newReadingInput.equalsIgnoreCase("true") || newReadingInput.equalsIgnoreCase("false")) {
+                book.setReading(Boolean.parseBoolean(newReadingInput));
+            } else {
+                System.out.println("Invalid boolean format. Use 'true' or 'false'. isReading not changed.");
             }
         }
 
         System.out.println("Book updated successfully");
     }
 
-    //This class is responsible for removing list items
-    //Этот класс отвечает за удаление элементов списка
-    public void DeleteItemByID(){
-
+    public void DeleteItemByID() {
         System.out.print("Enter id to delete: ");
         int delete = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Are you sure(True or False): ");
+        System.out.print("Are you sure (true/false): ");
         String confirmation = scanner.nextLine();
 
-        if (confirmation.equalsIgnoreCase("True")){
-
+        if (confirmation.equalsIgnoreCase("true")) {
             boolean removed = list.removeIf(item -> item.getId() == delete);
-            if (removed){
+            if (removed) {
                 System.out.println("Item with ID " + delete + " deleted successfully");
-            }else{
+            } else {
                 System.out.println("Item with ID " + delete + " not found");
             }
-        }else if(confirmation.equalsIgnoreCase("False")){
+        } else if (confirmation.equalsIgnoreCase("false")) {
             System.out.println("Deletion cancelled");
-        }else{
-            System.out.println("Invalid input. Please enter 'True' or 'False'");
+        } else {
+            System.out.println("Invalid input. Please enter 'true' or 'false'");
         }
+    }
 
+    public void saveToCSV(String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+            for (Book book : list) {
+                writer.println(book.toCSV());
+            }
+            System.out.println("The data has been successfully saved to a file: " + filename);
+        } catch (IOException e) {
+            System.out.println("Error saving to CSV: " + e.getMessage());
+        }
+    }
+
+    public void loadFromCSV(String filename) {
+        List<Book> loadedBooks = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            int lineNumber = 0;
+
+            while ((line = reader.readLine()) != null) {
+                lineNumber++;
+                try {
+                    Book book = Book.fromCSV(line);
+
+                    if (!existingIds.contains(book.getId())) {
+                        loadedBooks.add(book);
+                        existingIds.add(book.getId());
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Error in line " + lineNumber + ": " + e.getMessage());
+                }
+            }
+
+            list.clear();
+            list.addAll(loadedBooks);
+
+            System.out.println("Data successfully loaded from file: " + filename);
+            System.out.println("Books loaded: " + loadedBooks.size());
+
+        } catch (IOException e) {
+            System.err.println("Error when loading from CSV: " + e.getMessage());
+        }
+    }
+
+    public void displayAllItemsCSV() {
+        System.out.println("\nList of all books in CSV format:");
+        System.out.println("ID,Author,Name,PublicationYear,Type,isReading");
+        System.out.println("--------------------------------------------------");
+
+        if (list.isEmpty()) {
+            System.out.println("The list is empty");
+        } else {
+            for (Book book : list) {
+                System.out.println(book.toCSV());
+            }
+        }
+    }
+
+    public void displayItemByIDCSV(int id) {
+        Optional<Book> bookOptional = getItemByID(id);
+        if (bookOptional.isPresent()) {
+            Book book = bookOptional.get();
+            System.out.println("\nBook found in CSV format:");
+            System.out.println("ID,Author,Name,PublicationYear,Type,isReading");
+            System.out.println("--------------------------------------------------");
+            System.out.println(book.toCSV());
+        } else {
+            System.out.println("Book with ID " + id + " not found");
+        }
+    }
+
+    public void displayItemByAuthorCSV(String author) {
+        ArrayList<Book> result = searchByAuthor(author);
+        if (!result.isEmpty()) {
+            System.out.println("\nFound " + result.size() + " books by author " + author + " in CSV format:");
+            System.out.println("ID,Author,Name,PublicationYear,Type,isReading");
+            System.out.println("--------------------------------------------------");
+            for (Book book : result) {
+                System.out.println(book.toCSV());
+            }
+        } else {
+            System.out.println("No books found by author: " + author);
+        }
+    }
+
+    public void displayByYearCSV(int year) {
+        ArrayList<Book> result = searchByYear(year);
+        if (!result.isEmpty()) {
+            System.out.println("\nFound " + result.size() + " books from year " + year + " in CSV format:");
+            System.out.println("ID,Author,Name,PublicationYear,Type,isReading");
+            System.out.println("--------------------------------------------------");
+            for (Book book : result) {
+                System.out.println(book.toCSV());
+            }
+        } else {
+            System.out.println("No books found from year: " + year);
+        }
     }
 }

@@ -15,14 +15,17 @@ public class Main {
 
             System.out.println("\nLibrary Menu: ");
             System.out.println("1. Add Book");
-            System.out.println("2. List All Books");
-            System.out.println("3. Find Book by ID");
-            System.out.println("4. Exit");
-            System.out.println("5. Show all the books");
-            System.out.println("6. Update information");
-            System.out.println("7. Delete element");
-            System.out.println("8. Find some element");
-            System.out.println("9. Exit");
+            System.out.println("2. List All Books (normal format)");
+            System.out.println("3. List All Books (CSV format)");
+            System.out.println("4. Find Book by ID (normal format)");
+            System.out.println("5. Find Book by ID (CSV format)");
+            System.out.println("6. Edit Book");
+            System.out.println("7. Delete Book");
+            System.out.println("8. Search Books (normal format)");
+            System.out.println("9. Search Books (CSV format)");
+            System.out.println("10. Save to CSV file");
+            System.out.println("11. Load from CSV file");
+            System.out.println("12. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -44,38 +47,33 @@ public class Main {
                     library.getAllItems();
                     break;
 
-                 //Searching for an element by ID
-                 //Поиск элемента по ID
+                //CSV output of all books
+                //CSV вывод всех книг
                 case 3:
-                    System.out.println("Enter Book ID to search: ");
+                    library.displayAllItemsCSV();
+                    break;
+
+                //Search book by ID
+                //Поиск книги по ID
+                case 4:
+                    System.out.print("Enter Book ID to search: ");
                     int idToSearch = scanner.nextInt();
                     scanner.nextLine();
-
                     Optional<Book> bookOptional = library.getItemByID(idToSearch);
-
-                    //Checks if there is a book in bookOptional
-                    //Проверяет, есть ли книга в bookOptional
                     if (bookOptional.isPresent()) {
-                        Book book = bookOptional.get();
-
-                        System.out.println(book.toString());
-
+                        System.out.println(bookOptional.get().toString());
                     } else {
                         System.out.println("Book with ID " + idToSearch + " not found.");
                     }
                     break;
 
-                //Exit from the cycle
-                //Выход из цикла
-                case 4:
-                    System.out.println("Exiting...");
-                    scanner.close();
-                    return;
-
-                //Get all element
-                //Получение всех элементов из списка
+                //Search book by ID in CSV format
+                //Поиск книги по ID в формате CSV
                 case 5:
-                    ArrayList<Book> books = library.getAllItems();
+                    System.out.println("Enter Book by ID to search (CSV): ");
+                    int idToSearchCSV = scanner.nextInt();
+                    scanner.nextLine();
+                    library.displayItemByIDCSV(idToSearchCSV);
                     break;
 
                 //Edit some element by ID
@@ -84,12 +82,12 @@ public class Main {
                     System.out.println("=== Edit element ===");
                     System.out.print("Enter element ID to edit: ");
 
-                    try{
+                    try {
                         int idToFind = scanner.nextInt();
                         scanner.nextLine();
 
                         library.editBookByID(idToFind);
-                    }catch (InputMismatchException e){
+                    } catch (InputMismatchException e) {
                         System.out.println("Error: Invalid ID format. Please enter a number.");
                     }
                     break;
@@ -109,13 +107,13 @@ public class Main {
 
                 case 8:
 
-                    System.out.println("=== Search some element ===");
+                    System.out.println("=== Search some book ===");
 
                     System.out.print("Choose a search method (1-by ID,2-by author,3-by year) : ");
                     int searchChoice = scanner.nextInt();
                     scanner.nextLine();
 
-                    switch(searchChoice){
+                    switch (searchChoice) {
 
                         //Search for a book by ID
                         //Поиск книги по ID
@@ -127,9 +125,9 @@ public class Main {
 
                             Optional<Book> foundBook = library.getItemByID(idToSearch1);
 
-                            if(foundBook.isPresent()){
+                            if (foundBook.isPresent()) {
                                 System.out.println("Book found: " + foundBook.get());
-                            }else {
+                            } else {
                                 System.out.println("Book with ID " + idToSearch1 + " not found.");
                             }
                             break;
@@ -143,12 +141,12 @@ public class Main {
 
                             ArrayList<Book> booksByAuthor = library.searchByAuthor(authorToSearch);
 
-                            if (!booksByAuthor.isEmpty()){
+                            if (!booksByAuthor.isEmpty()) {
                                 System.out.println("Found " + booksByAuthor.size() + " book(s) by author " + authorToSearch + ":");
-                                for (Book book : booksByAuthor){
+                                for (Book book : booksByAuthor) {
                                     System.out.println(book);
                                 }
-                            }else{
+                            } else {
                                 System.out.print("No books found by author: " + authorToSearch);
                             }
                             break;
@@ -164,9 +162,9 @@ public class Main {
 
                             ArrayList<Book> booksByYear = library.searchByYear(ageToSearch);
 
-                            if (!booksByYear.isEmpty()){
-                                System.out.println("Found " + booksByYear.size() + "book(s) by year " + booksByYear + ":" );
-                            }else{
+                            if (!booksByYear.isEmpty()) {
+                                System.out.println("Found " + booksByYear.size() + " book(s) by year " + booksByYear + ":");
+                            } else {
                                 System.out.println("No books found by year: " + booksByYear);
                             }
                             break;
@@ -177,13 +175,91 @@ public class Main {
                 //This code closes the program
                 //Этот код закрывает программу
                 case 9:
-                    System.out.println("Invalid with code...");
+                    handleSearchMenu(library, scanner, true);
+                    break;
+
+                case 10:
+                    System.out.println("Enter filename to save: ");
+                    String saveFilename = scanner.nextLine();
+                    library.saveToCSV(saveFilename);
+                    break;
+
+                case 11:
+                    System.out.println("Enter filename to load: ");
+                    String loadFilename = scanner.nextLine();
+                    library.loadFromCSV(loadFilename);
+                    break;
+
+                case 12:
+                    System.out.println("Do you want to save the library data before exiting? (yes/no): ");
+                    String saveChoice = scanner.nextLine().trim().toLowerCase();
+
+                    if (saveChoice.equals("yes") || saveChoice.equals("y")) {
+                        System.out.print("Enter filename to save (e.g., library.csv): ");
+                        String filename = scanner.nextLine().trim();
+                        if (filename.isEmpty()) {
+                            filename = "library.csv"; // значение по умолчанию
+                        }
+                        library.saveToCSV(filename);
+                    } else if (!saveChoice.equals("no") && !saveChoice.equals("n")) {
+                        System.out.println("Unrecognized input. Data will not be saved.");
+                    }
+
+                    System.out.println("Exiting program...");
                     scanner.close();
                     return;
 
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
+                default:
+                    System.out.println("Invalid choice. Please try again.");
             }
+        }
+    }
+
+    private static void handleSearchMenu(Library library, Scanner scanner, boolean csvFormat) {
+        System.out.println("\n=== Book Search ===");
+        System.out.println("Choose search type (1-by author,2-by year): ");
+        int searchChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (searchChoice) {
+            case 1:
+                System.out.println("Enter author to search: ");
+                String authorToSearch = scanner.nextLine();
+
+                if (csvFormat) {
+                    library.displayItemByAuthorCSV(authorToSearch);
+                } else {
+                    ArrayList<Book> booksByAuthor = library.searchByAuthor(authorToSearch);
+                    if (!booksByAuthor.isEmpty()) {
+                        System.out.println("Found " + booksByAuthor.size() + " book(s) by author " + authorToSearch + ":");
+                        for (Book book : booksByAuthor) {
+                            System.out.println(book);
+                        }
+                    } else {
+                        System.out.println("No books found by author: " + authorToSearch);
+                    }
+                }
+                break;
+            case 2:
+                System.out.println("Enter year to search: ");
+                int yearToSearch = scanner.nextInt();
+                scanner.nextLine();
+                if (csvFormat) {
+                    library.displayByYearCSV(yearToSearch);
+                } else {
+                    ArrayList<Book> booksByYear = library.searchByYear(yearToSearch);
+                    if (!booksByYear.isEmpty()) {
+                        System.out.println("Found " + booksByYear.size() + " book(s) from year " + yearToSearch + ":");
+                        for (Book book : booksByYear) {
+                            System.out.println(book);
+                        }
+                    } else {
+                        System.out.println("No books found from year: " + yearToSearch);
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid search type choice.");
         }
     }
 }

@@ -5,18 +5,19 @@ public class Book {
     private int publicationYear;
     private String type;
     private boolean isReading;
-    private boolean isWatched; // если это действительно нужно (например, для аудиокниг/видео)
+
+    public Book() {
+    }
 
     // Конструктор
     public Book(int id, String author, String name, int publicationYear,
-                String type, boolean isReading, boolean isWatched) {
+                String type, boolean isReading) {
         this.id = id;
         this.author = author;
         this.name = name;
         this.publicationYear = publicationYear;
         this.type = type;
         this.isReading = isReading;
-        this.isWatched = isWatched;
     }
 
     // Геттеры
@@ -44,10 +45,6 @@ public class Book {
         return isReading;
     }
 
-    public boolean isWatched() {
-        return isWatched;
-    }
-
     // Сеттеры
     public void setId(int id) {
         this.id = id;
@@ -73,34 +70,26 @@ public class Book {
         isReading = reading;
     }
 
-    public void setWatched(boolean watched) {
-        isWatched = watched;
-    }
-
-    // === CSV сериализация ===
     public String toCSV() {
-        // Экранируем запятые заменой на точку с запятой (упрощённый подход)
         return id + "," +
                 escapeCSV(author) + "," +
                 escapeCSV(name) + "," +
                 publicationYear + "," +
                 escapeCSV(type) + "," +
-                isReading + "," +
-                isWatched;
+                isReading;
     }
 
     private static String escapeCSV(String value) {
         return value == null ? "" : value.replace(",", ";");
     }
 
-    // === CSV десериализация ===
     public static Book fromCSV(String line) {
         if (line == null || line.trim().isEmpty()) {
             throw new IllegalArgumentException("CSV line is null or empty");
         }
-        String[] parts = line.split(",", 7); // разбиваем строго на 7 частей
-        if (parts.length != 7) {
-            throw new IllegalArgumentException("Invalid CSV format: expected 7 fields, got " + parts.length + " in line: " + line);
+        String[] parts = line.split(",", 6); // Теперь 6 полей
+        if (parts.length != 6) {
+            throw new IllegalArgumentException("Invalid CSV format: expected 6 fields, got " + parts.length + " in line: " + line);
         }
 
         try {
@@ -110,9 +99,8 @@ public class Book {
             int publicationYear = Integer.parseInt(parts[3].trim());
             String type = unescapeCSV(parts[4]);
             boolean isReading = Boolean.parseBoolean(parts[5].trim());
-            boolean isWatched = Boolean.parseBoolean(parts[6].trim());
 
-            return new Book(id, author, name, publicationYear, type, isReading, isWatched);
+            return new Book(id, author, name, publicationYear, type, isReading);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid number format in CSV line: " + line, e);
         }
@@ -131,7 +119,6 @@ public class Book {
                 ", publicationYear=" + publicationYear +
                 ", type='" + type + '\'' +
                 ", isReading=" + isReading +
-                ", isWatched=" + isWatched +
                 '}';
     }
 }
