@@ -207,20 +207,16 @@ public class Library {
         System.out.println("Book updated successfully");
     }
 
-    public void DeleteItemByID() {
-        System.out.print("Enter id to delete: ");
-        int delete = scanner.nextInt();
-        scanner.nextLine();
-
+    public void DeleteItemByID(int id) {
         System.out.print("Are you sure (true/false): ");
         String confirmation = scanner.nextLine();
 
         if (confirmation.equalsIgnoreCase("true")) {
-            boolean removed = list.removeIf(item -> item.getId() == delete);
+            boolean removed = list.removeIf(item -> item.getId() == id);
             if (removed) {
-                System.out.println("Item with ID " + delete + " deleted successfully");
+                System.out.println("Item with ID " + id + " deleted successfully");
             } else {
-                System.out.println("Item with ID " + delete + " not found");
+                System.out.println("Item with ID " + id + " not found");
             }
         } else if (confirmation.equalsIgnoreCase("false")) {
             System.out.println("Deletion cancelled");
@@ -399,5 +395,52 @@ public class Library {
         }
         String[] parts = author.trim().split("\\s+");
         return parts[parts.length - 1]; // последнее слово — фамилия
+    }
+
+    public void recommendRandomUnreadBook() {
+        // Step 1: Collect all unread books
+        ArrayList<Book> unreadBooks = new ArrayList<>();
+        for (Book book : list) {
+            if (!book.isReading()) {
+                unreadBooks.add(book);
+            }
+        }
+
+        // Step 2: Check if there are any unread books
+        if (unreadBooks.isEmpty()) {
+            System.out.println("No unread books available for recommendation.");
+            return;
+        }
+
+        // Step 3: Pick a random one
+        Random random = new Random();
+        int randomIndex = random.nextInt(unreadBooks.size());
+        Book recommended = unreadBooks.get(randomIndex);
+
+        // Step 4: Show it
+        System.out.println("\n📚 Recommended unread book:");
+        System.out.println(recommended.toString());
+    }
+
+    public void recommendRandomUnreadBookCSV() {
+        ArrayList<Book> unreadBooks = new ArrayList<>();
+        for (Book book : list) {
+            if (!book.isReading()) {
+                unreadBooks.add(book);
+            }
+        }
+
+        if (unreadBooks.isEmpty()) {
+            System.out.println("No unread books available for recommendation.");
+            return;
+        }
+
+        Random random = new Random();
+        Book recommended = unreadBooks.get(random.nextInt(unreadBooks.size()));
+
+        System.out.println("\nRecommended unread book (CSV format):");
+        System.out.println("ID,Author,Name,PublicationYear,Type,isReading");
+        System.out.println("--------------------------------------------------");
+        System.out.println(recommended.toCSV());
     }
 }

@@ -29,7 +29,9 @@ public class Main {
             System.out.println("13. List Books Sorted by Author");
             System.out.println("14. List Books Sorted by Name (CSV format)");
             System.out.println("15. List Books Sorted by Author (CSV format)");
-            System.out.println("16. Exit");
+            System.out.println("16. Recommend a random unread book");
+            System.out.println("17. Recommend a random unread book (CSV format)");
+            System.out.println("18. Exit");
 
             System.out.print("Enter your choice: ");
 
@@ -106,7 +108,7 @@ public class Main {
                     int idToDelete = scanner.nextInt();
                     scanner.nextLine();
 
-                    library.DeleteItemByID();
+                    library.DeleteItemByID(idToDelete);
 
                     break;
 
@@ -212,6 +214,14 @@ public class Main {
                     break;
 
                 case 16:
+                    library.recommendRandomUnreadBook();
+                    break;
+
+                case 17:
+                    library.recommendRandomUnreadBookCSV();
+                    break;
+
+                case 18:
                     System.out.println("Do you want to save the library data before exiting? (yes/no): ");
                     String saveChoice = scanner.nextLine().trim().toLowerCase();
 

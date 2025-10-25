@@ -9,22 +9,28 @@ import java.util.List;
 
 public class SaveOnCloseExample {
 
-    // Это твой список, который будет "жить" во время работы программы
-    private static List<String> dataList = new ArrayList<>();
-
+    // Main program that shows a window and saves data on close
+    // Основная программа, которая показывает окно и сохраняет данные при закрытии
     public static void main(String[] args) {
-        // Для примера добавим в список какие-то данные
+        // This list holds data during program runtime
+        // Этот список хранит данные во время работы программы
+        List<String> dataList = new ArrayList<>();
+
+        // Adds sample data to the list for demonstration
+        // Добавляет пример данных в список для демонстрации
         dataList.add("Первая строка в списке");
         dataList.add("Вторая строка");
         dataList.add("Что-то еще...");
 
-        // 1. Создаем основное окно
+        // Creates the main application window
+        // Создаёт главное окно приложения
         JFrame frame = new JFrame("Пример сохранения при выходе");
         frame.setSize(500, 300);
-        frame.setLocationRelativeTo(null); // Окно по центру экрана
+        frame.setLocationRelativeTo(null); // Centers window on screen
+        // Окно по центру экрана
 
-        // Добавим в окно текстовое поле, чтобы можно было
-        // добавлять новые элементы в список во время работы
+        // Creates input field and button to add items to the list
+        // Создаёт поле ввода и кнопку для добавления элементов в список
         JTextField inputField = new JTextField();
         JButton addButton = new JButton("Добавить в список");
         addButton.addActionListener(e -> {
@@ -37,80 +43,76 @@ public class SaveOnCloseExample {
             }
         });
 
-        // Просто для компоновки элементов в окне
+        // Arranges UI components in a panel
+        // Размещает элементы интерфейса на панели
         JPanel panel = new JPanel();
         panel.add(new JLabel("Введите текст:"));
         panel.add(inputField);
         panel.add(addButton);
         frame.add(panel);
 
-
-        // 2. ЭТО ГЛАВНАЯ ЧАСТЬ: Отключаем стандартное закрытие
+        // Disables default window closing behavior
+        // Отключает стандартное поведение при закрытии окна
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        // 3. Добавляем "слушателя"
+        // Adds a listener to handle window closing event
+        // Добавляет обработчик события закрытия окна
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                // 4. Показываем диалог ДА/НЕТ
+                // Shows confirmation dialog before exit
+                // Показывает диалог подтверждения перед выходом
                 int result = JOptionPane.showConfirmDialog(
-                        frame, // Родительское окно
-                        "Хотите сохранить список в файл перед выходом?", // Сообщение
-                        "Подтверждение выхода", // Заголовок
-                        JOptionPane.YES_NO_OPTION, // Тип кнопок
-                        JOptionPane.QUESTION_MESSAGE // Иконка
+                        frame,
+                        "Хотите сохранить список в файл перед выходом?",
+                        "Подтверждение выхода",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
                 );
 
-                // 5. Анализируем ответ
+                // Handles user's choice from the dialog
+                // Обрабатывает выбор пользователя в диалоге
                 if (result == JOptionPane.YES_OPTION) {
-                    // Пользователь нажал "Да"
-                    saveListToFile(dataList); // Вызываем метод сохранения
-                    frame.dispose(); // Закрываем окно
-                    System.exit(0); // Полностью завершаем программу
+                    saveListToFile(dataList);
+                    frame.dispose();
+                    System.exit(0);
                 } else if (result == JOptionPane.NO_OPTION) {
-                    // Пользователь нажал "Нет"
                     frame.dispose();
                     System.exit(0);
                 }
-                // Если пользователь нажал "Cancel" или закрыл диалог,
-                // то result будет другим, и мы просто ничего не делаем,
-                // оставаясь в программе.
+                // If user cancels, do nothing and stay in app
+                // Если пользователь отменил — ничего не делаем, остаёмся в программе
             }
         });
 
-        // Делаем окно видимым
+        // Makes the window visible to the user
+        // Делает окно видимым для пользователя
         frame.setVisible(true);
     }
 
-    /**
-     * Метод, который "скачивает" (сохраняет) список в текстовый файл.
-     * @param list Список строк для сохранения
-     */
+    // Saves the list of strings to a text file
+    // Сохраняет список строк в текстовый файл
     private static void saveListToFile(List<String> list) {
-        // Имя файла (он появится в той же папке, где запущена программа)
         String filename = "saved_list.txt";
 
-        // Используем try-with-resources, чтобы файл
-        // гарантированно закрылся, даже если будет ошибка
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-
             writer.write("--- Ваш сохраненный список ---");
             writer.newLine();
 
             for (String item : list) {
-                writer.write(item); // Записываем каждый элемент
-                writer.newLine();   // С новой строки
+                writer.write(item);
+                writer.newLine();
             }
 
             writer.write("--- Конец списка ---");
             writer.newLine();
 
             System.out.println("Файл '" + filename + "' успешно сохранен!");
-            // Можно показать сообщение об успехе
             JOptionPane.showMessageDialog(null, "Файл '" + filename + "' сохранен!");
 
         } catch (IOException e) {
-            // Если произошла ошибка (например, нет прав на запись)
+            // Handles file writing errors
+            // Обрабатывает ошибки записи файла
             System.err.println("Ошибка при сохранении файла: " + e.getMessage());
             JOptionPane.showMessageDialog(
                     null,
