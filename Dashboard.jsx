@@ -1,8 +1,9 @@
-import React from 'react';
-import { BookOpen, TrendingUp, Users } from 'lucide-react';
+import React from 'react'
+import { BookOpen, TrendingUp, Users } from 'lucide-react'
 
+// Компонент карточки метрики
 const MetricCard = ({ title, value, gradientFrom, gradientTo, icon: Icon }) => {
-    const gradientClass = `bg-gradient-to-br ${gradientFrom} ${gradientTo}`;
+    const gradientClass = `bg-gradient-to-br ${gradientFrom} ${gradientTo}`
     return (
         <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl transition-all duration-300 ease-in-out
                         transform hover:shadow-3xl hover:-translate-y-2 border-2 border-purple-200">
@@ -33,10 +34,11 @@ const MetricCard = ({ title, value, gradientFrom, gradientTo, icon: Icon }) => {
                 {value}
             </h3>
         </div>
-    );
-};
+    )
+}
 
-const Dashboard = () => {
+// Основной компонент Dashboard
+export default function Dashboard() {
     return (
         <div className="space-y-8">
             {/* Секция ключевых метрик */}
@@ -71,7 +73,7 @@ const Dashboard = () => {
                 />
             </div>
 
-            {/* Другие виджеты (например, график активности) */}
+            {/* Виджет графика активности */}
             <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-200">
                 <h3 
                     className="text-xl font-semibold mb-4 font-sans"
@@ -85,7 +87,6 @@ const Dashboard = () => {
                     Активность выдачи за 6 месяцев
                 </h3>
                 <div className="h-64 flex items-center justify-center border-2 border-dashed border-purple-300 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50">
-                    {/* Здесь будет код для красивого графика */}
                     <p 
                         className="font-semibold" 
                         style={{ 
@@ -101,7 +102,5 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
-    );
-};
-
-export default Dashboard;
+    )
+}

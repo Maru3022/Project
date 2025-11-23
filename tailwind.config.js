@@ -40,3 +40,5 @@ module.exports = {
     },
     plugins: [],
 }
+
+// Конфигурация Tailwind CSS для проекта Libris Flow

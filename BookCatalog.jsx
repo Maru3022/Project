@@ -1,13 +1,15 @@
-import React from 'react';
-import { Search, Filter, Plus } from 'lucide-react';
+import React from 'react'
+import { Search, Filter, Plus } from 'lucide-react'
 
+// Моковые данные книг для демонстрации
 const mockBooks = [
     { id: 1, title: 'Темная Башня', author: 'Стивен Кинг', isbn: '978-5-17', status: 'В наличии', copies: 5 },
     { id: 2, title: '1984', author: 'Джордж Оруэлл', isbn: '978-5-18', status: 'Выдано', copies: 0 },
     { id: 3, title: 'Идиот', author: 'Фёдор Достоевский', isbn: '978-5-19', status: 'В наличии', copies: 12 },
-];
+]
 
-const BookCatalog = () => {
+// Основной компонент каталога книг
+export default function BookCatalog() {
     return (
         <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl font-sans border-2 border-purple-200">
             {/* Верхняя панель: Поиск, Фильтр, Кнопка Добавления */}
@@ -27,14 +29,14 @@ const BookCatalog = () => {
                         />
                     </div>
 
-                    {/* Кнопка фильтрации - Фиолетово-розовая */}
+                    {/* Кнопка фильтрации */}
                     <button className="flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold shadow-lg shadow-purple-500/50 hover:from-purple-600 hover:to-pink-600 hover:shadow-xl transition duration-200 transform hover:scale-105" style={{ background: 'linear-gradient(to right, #a855f7, #ec4899)' }}>
                         <Filter className="w-5 h-5 mr-2" />
                         Фильтры
                     </button>
                 </div>
 
-                {/* Кнопка "Добавить" - Розово-фиолетовая */}
+                {/* Кнопка "Добавить" */}
                 <button className="flex items-center px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-semibold shadow-lg shadow-pink-500/50 hover:from-pink-600 hover:to-purple-600 hover:shadow-xl transition duration-200 transform hover:scale-105" style={{ background: 'linear-gradient(to right, #ec4899, #a855f7)' }}>
                     <Plus className="w-5 h-5 mr-2" />
                     Добавить Книгу
@@ -102,7 +104,5 @@ const BookCatalog = () => {
                 </table>
             </div>
         </div>
-    );
-};
-
-export default BookCatalog;
+    )
+}
