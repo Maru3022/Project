@@ -9,29 +9,33 @@ const mockBooks = [
 
 const BookCatalog = () => {
     return (
-        <div className="bg-white p-6 rounded-2xl shadow-xl font-sans">
+        <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl font-sans border-2 border-purple-200">
             {/* Верхняя панель: Поиск, Фильтр, Кнопка Добавления */}
             <div className="flex justify-between items-center mb-6">
                 <div className="flex space-x-3">
                     {/* Поле поиска с иконкой */}
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#9333ea' }} />
                         <input
                             type="text"
                             placeholder="Поиск по названию или автору..."
-                            className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:border-indigo-primary focus:ring-1 focus:ring-indigo-primary transition duration-150 w-80"
+                            className="pl-10 pr-4 py-2 border-2 border-purple-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-300 transition duration-150 w-80 bg-white/80"
+                            style={{ 
+                                color: '#9333ea',
+                                fontWeight: '500'
+                            }}
                         />
                     </div>
 
-                    {/* Кнопка фильтрации */}
-                    <button className="flex items-center px-4 py-2 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-100 transition duration-150 shadow-sm">
+                    {/* Кнопка фильтрации - Фиолетово-розовая */}
+                    <button className="flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold shadow-lg shadow-purple-500/50 hover:from-purple-600 hover:to-pink-600 hover:shadow-xl transition duration-200 transform hover:scale-105" style={{ background: 'linear-gradient(to right, #a855f7, #ec4899)' }}>
                         <Filter className="w-5 h-5 mr-2" />
                         Фильтры
                     </button>
                 </div>
 
-                {/* Кнопка "Добавить" - Акцентный Коралл */}
-                <button className="flex items-center px-4 py-2 bg-coral-accent text-white rounded-xl font-semibold shadow-lg shadow-coral-accent/50 hover:bg-orange-600 transition duration-200">
+                {/* Кнопка "Добавить" - Розово-фиолетовая */}
+                <button className="flex items-center px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-semibold shadow-lg shadow-pink-500/50 hover:from-pink-600 hover:to-purple-600 hover:shadow-xl transition duration-200 transform hover:scale-105" style={{ background: 'linear-gradient(to right, #ec4899, #a855f7)' }}>
                     <Plus className="w-5 h-5 mr-2" />
                     Добавить Книгу
                 </button>
@@ -39,32 +43,58 @@ const BookCatalog = () => {
 
             {/* Таблица данных */}
             <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-bg sticky top-0">
+                <table className="min-w-full divide-y divide-purple-200">
+                    <thead className="bg-gradient-to-r from-purple-500 to-pink-500 sticky top-0">
                     <tr>
                         {['Название', 'Автор', 'ISBN', 'Статус', 'Копии', 'Действия'].map((header) => (
-                            <th key={header} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <th key={header} className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                 {header}
                             </th>
                         ))}
                     </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-100">
+                    <tbody className="bg-white/50 divide-y divide-purple-100">
                     {mockBooks.map((book) => (
                         <tr key={book.id} className="hover:bg-gray-50 transition duration-100">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{book.title}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{book.author}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.isbn}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium" style={{ 
+                                background: 'linear-gradient(to right, #9333ea, #db2777)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>{book.title}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm" style={{ 
+                                background: 'linear-gradient(to right, #db2777, #9333ea)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>{book.author}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm" style={{ 
+                                background: 'linear-gradient(to right, #a855f7, #ec4899)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>{book.isbn}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${book.status === 'В наличии' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full shadow-md
+                    ${book.status === 'В наличии' 
+                        ? 'bg-gradient-to-r from-green-400 to-teal-400 text-white' 
+                        : 'bg-gradient-to-r from-red-400 to-pink-400 text-white'}`}>
                     {book.status}
                   </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{book.copies}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold" style={{ 
+                                background: 'linear-gradient(to right, #9333ea, #db2777)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>{book.copies}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button className="text-indigo-primary hover:text-indigo-light mr-4 p-2 rounded-md hover:bg-indigo-50 transition duration-150">Изменить</button>
-                                <button className="text-red-500 hover:text-red-700 p-2 rounded-md hover:bg-red-50 transition duration-150">Удалить</button>
+                                <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 mr-4 px-4 py-2 rounded-lg font-semibold shadow-md shadow-purple-500/30 hover:shadow-lg transition duration-200 transform hover:scale-105" style={{ background: 'linear-gradient(to right, #a855f7, #ec4899)' }}>
+                                    Изменить
+                                </button>
+                                <button className="bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600 px-4 py-2 rounded-lg font-semibold shadow-md shadow-pink-500/30 hover:shadow-lg transition duration-200 transform hover:scale-105" style={{ background: 'linear-gradient(to right, #ec4899, #a855f7)' }}>
+                                    Удалить
+                                </button>
                             </td>
                         </tr>
                     ))}

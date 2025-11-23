@@ -1,18 +1,40 @@
 import React from 'react';
 import { BookOpen, TrendingUp, Users } from 'lucide-react';
 
-const MetricCard = ({ title, value, color, icon: Icon }) => (
-    // Улучшенные стили карточек: мягкая тень, плавные переходы, эффект подъема при наведении
-    <div className="bg-white p-6 rounded-2xl shadow-xl transition-all duration-300 ease-in-out
-                    transform hover:shadow-2xl hover:-translate-y-1">
-        <div className={`flex items-center justify-between p-3 rounded-xl`}
-             style={{ backgroundColor: `${color}1A` /* Добавляем прозрачность к цвету */ }}>
-            <Icon className={`w-8 h-8`} style={{ color }} /> {/* Иконка с основным цветом */}
+const MetricCard = ({ title, value, gradientFrom, gradientTo, icon: Icon }) => {
+    const gradientClass = `bg-gradient-to-br ${gradientFrom} ${gradientTo}`;
+    return (
+        <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl transition-all duration-300 ease-in-out
+                        transform hover:shadow-3xl hover:-translate-y-2 border-2 border-purple-200">
+            <div className={`flex items-center justify-between p-4 rounded-xl ${gradientClass} shadow-lg`}>
+                <Icon className="w-10 h-10 text-white" />
+            </div>
+            <p 
+                className="text-sm font-semibold mt-4 uppercase tracking-wide" 
+                style={{ 
+                    background: 'linear-gradient(to right, #9333ea, #db2777)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    color: '#db2777'
+                }}
+            >
+                {title}
+            </p>
+            <h3 
+                className={`text-5xl font-extrabold bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent mt-2 font-sans`}
+                style={{
+                    background: 'linear-gradient(to right, #9333ea, #db2777)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                }}
+            >
+                {value}
+            </h3>
         </div>
-        <p className="text-sm text-gray-500 mt-4">{title}</p>
-        <h3 className="text-4xl font-extrabold text-gray-900 mt-1 font-sans">{value}</h3>
-    </div>
-);
+    );
+};
 
 const Dashboard = () => {
     return (
@@ -22,35 +44,60 @@ const Dashboard = () => {
                 <MetricCard
                     title="Всего Книг"
                     value="12,500"
-                    color="#3F51B5" // Индиго
+                    gradientFrom="from-purple-500"
+                    gradientTo="to-pink-500"
                     icon={BookOpen}
                 />
                 <MetricCard
                     title="Книг Выдано"
                     value="850"
-                    color="#FF7043" // Коралл (Акцент!)
+                    gradientFrom="from-purple-500"
+                    gradientTo="to-pink-500"
                     icon={TrendingUp}
                 />
                 <MetricCard
                     title="Просрочено"
                     value="45"
-                    color="#EF4444" // Красный для критичности
+                    gradientFrom="from-purple-600"
+                    gradientTo="to-pink-600"
                     icon={BookOpen}
                 />
                 <MetricCard
                     title="Новых Читателей (Месяц)"
                     value="120"
-                    color="#10B981" // Зеленый для роста
+                    gradientFrom="from-purple-500"
+                    gradientTo="to-pink-500"
                     icon={Users}
                 />
             </div>
 
             {/* Другие виджеты (например, график активности) */}
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
-                <h3 className="text-xl font-semibold mb-4 text-gray-800 font-sans">Активность выдачи за 6 месяцев</h3>
-                <div className="h-64 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-200 rounded-lg">
+            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl border-2 border-purple-200">
+                <h3 
+                    className="text-xl font-semibold mb-4 font-sans"
+                    style={{
+                        background: 'linear-gradient(to right, #9333ea, #db2777)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                    }}
+                >
+                    Активность выдачи за 6 месяцев
+                </h3>
+                <div className="h-64 flex items-center justify-center border-2 border-dashed border-purple-300 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50">
                     {/* Здесь будет код для красивого графика */}
-                    Нет данных для графика
+                    <p 
+                        className="font-semibold" 
+                        style={{ 
+                            background: 'linear-gradient(to right, #9333ea, #db2777)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                            fontSize: '1.125rem'
+                        }}
+                    >
+                        Нет данных для графика
+                    </p>
                 </div>
             </div>
         </div>
