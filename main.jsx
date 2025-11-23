@@ -1,9 +1,11 @@
-import './index.css';
+// C:\Project\main.jsx
+
+import './index.css'; // ❗️ ДОБАВЬТЕ ЭТУ СТРОКУ ❗️
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 
-// Рендеринг корневого компонента App
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <App />
