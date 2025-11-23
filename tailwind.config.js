@@ -1,12 +1,8 @@
-// tailwind.config.js
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-    // ЭТО ОЧЕНЬ ВАЖНО: Убедитесь, что Tailwind сканирует нужные файлы
     content: [
-        "./index.html",
-        "./*.{js,jsx,ts,tsx}", // Сканирование всех JSX/JS файлов в корне
+        './index.html',
+        './src/**/*.{js,jsx,ts,tsx}',
     ],
-
     theme: {
         extend: {
             colors: {
@@ -18,7 +14,7 @@ module.exports = {
             },
             fontFamily: {
                 sans: ['Inter', 'Arial', 'sans-serif'],
-            }
+            },
         },
     },
     plugins: [],
